@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-3</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://cdn-media.sforum.vn/storage/app/media/anhthem/hinh-nen-tinh-yeu-thumbnail.jpg') no-repeat center center/cover;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d63384;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #e63950;
+        }
+
+        .heart-container {
+            display: none;
+            position: relative;
+            width: 500px;
+            height: 450px;
+        }
+
+        .heart-container img {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            object-fit: cover;
+            border-radius: 10px;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .heart-container img:nth-child(1) {
+            top: 90px;
+            left: 210px;
+        }
+
+        .heart-container img:nth-child(2) {
+            top: 50px;
+            left: 140px;
+        }
+
+        .heart-container img:nth-child(3) {
+            top: 50px;
+            left: 280px;
+        }
+
+        .heart-container img:nth-child(4) {
+            top: 110px;
+            left: 80px;
+        }
+
+        .heart-container img:nth-child(5) {
+            top: 110px;
+            left: 340px;
+        }
+
+        .heart-container img:nth-child(6) {
+            top: 180px;
+            left: 40px;
+        }
+
+        .heart-container img:nth-child(7) {
+            top: 180px;
+            left: 380px;
+        }
+
+        .heart-container img:nth-child(8) {
+            top: 250px;
+            left: 120px;
+        }
+
+        .heart-container img:nth-child(9) {
+            top: 250px;
+            left: 300px;
+        }
+
+        .heart-container img:nth-child(10) {
+            top: 340px;
+            left: 210px;
+        }
+
+        .message {
+            display: none;
+            font-size: 24px;
+            font-weight: bold;
+            color: #d63384;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #fireworkCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="button-container" id="buttonContainer">
+        <p id="buttonText">Xin chào người đẹp hãy bấm vào nút bên dưới để nhận được sự bất ngờ nhé!</p>
+        <button onclick="showHeart()">Bấm vào đây</button>
+    </div>
+
+    <div class="heart-container" id="heartContainer">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 1">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 2">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 3">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 4">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 5">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 6">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 7">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 8">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 9">
+        <img src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/473548685_122103026222725425_8333595303649220283_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH5NlUmyNvnpXpyTZ_HLeESlQybSXtzfACVDJtJe3N8ANQ4TyE4MqgHLvQIFnCnosWsCzzchVOqnRJ-fPE3uQHR&_nc_ohc=Fdm3Y9_MS2AQ7kNvgGn3am7&_nc_oc=AdgGrj2QBa8_Qlc9mOy4BH7NnPb1Fn6TC7TjmyQ_DX47RF2wK2jztVkGWvnho-ci4d6t8lsu6fAxyQMAek1wq3kM&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=AkW69nQ7z4U2lzGGBNrIBY5&oh=00_AYExDZQBRlVzDLrWtaSnmDoNagiGOQCzb1Da-vsmbJUKQw&oe=67D05E4E"
+            alt="Ảnh 10">
+    </div>
+
+    <p class="message" id="messageText">Chúc bạn một ngày 8-3 thật vui vẻ và hạnh phúc! ❤️</p>
+    <canvas id="fireworkCanvas"></canvas>
+    <script>
+        function showHeart() {
+            document.getElementById("heartContainer").style.display = "block";
+            document.getElementById("buttonContainer").style.display = "none";
+            document.getElementById("messageText").style.display = "block";
+            startFireworks();
+        }
+        const canvas = document.getElementById("fireworkCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Firework {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.particles = [];
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push(new Particle(this.x, this.y, this.color));
+                }
+            }
+
+            update() {
+                this.particles.forEach(particle => particle.update());
+            }
+
+            draw() {
+                this.particles.forEach(particle => particle.draw());
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = Math.random() * 3 + 2;
+                this.speedX = (Math.random() - 0.5) * 10;
+                this.speedY = (Math.random() - 0.5) * 10;
+                this.opacity = 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.02;
+            }
+
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        let fireworks = [];
+
+        function startFireworks() {
+            setInterval(() => {
+                let x = Math.random() * canvas.width;
+                let y = Math.random() * canvas.height * 0.5;
+                let color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                fireworks.push(new Firework(x, y, color));
+            }, 500);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            fireworks.forEach((firework, index) => {
+                firework.update();
+                firework.draw();
+                if (firework.particles[0].opacity <= 0) {
+                    fireworks.splice(index, 1);
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+
+</body>
+
+</html>
